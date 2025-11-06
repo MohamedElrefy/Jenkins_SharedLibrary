@@ -6,7 +6,7 @@ def call(String imageName, String buildNumber) {
             docker run --rm \
             -v /var/run/docker.sock:/var/run/docker.sock \
             aquasec/trivy:latest image \
-            --timeout 5m \
+            --timeout 20m \
             --scanners vuln \
             --severity HIGH,CRITICAL \
             --exit-code 1 \
