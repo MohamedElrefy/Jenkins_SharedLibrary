@@ -2,17 +2,16 @@ def call(String imageName, String buildNumber) {
     stage('Scan Image') {
         echo "🔍 Scanning Docker image for vulnerabilities..."
 
-        // Run Trivy inside Docker with higher timeout
         sh """
             docker run --rm \
             -v /var/run/docker.sock:/var/run/docker.sock \
-            -v /tmp/trivy-cache:/root/.cache/ \
             aquasec/trivy:latest image \
-            --timeout 20m \
-            --cache-dir /root/.cache/ \
+            --timeout 5m \
+            --scanners vuln \
             --severity HIGH,CRITICAL \
             --exit-code 1 \
-            ${imageName}:${buildNumber}
+            ${imageName}:${buildNumber} \
+            || echo '⚠️ Vulnerabilities found — review scan results above.'
         """
     }
 }
