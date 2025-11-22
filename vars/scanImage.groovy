@@ -8,7 +8,7 @@ def call(String imageName, String buildNumber) {
           --exit-code 1 \
           --vuln-type os,library \
           --severity CRITICAL,HIGH \
-          ${IMAGE_NAME}:${BUILD_NUMBER}
+          ${imageName}:${buildNumber}
         """
     }
 }
