@@ -3,15 +3,12 @@ def call(String imageName, String buildNumber) {
         echo "🔍 Scanning Docker image for vulnerabilities..."
 
         sh """
-            docker run --rm \
-            -v /var/run/docker.sock:/var/run/docker.sock \
-            aquasec/trivy:latest image \
-            --timeout 20m \
-            --scanners vuln \
-            --severity HIGH,CRITICAL \
-            --exit-code 1 \
-            ${imageName}:${buildNumber} \
-            || echo '⚠️ Vulnerabilities found — review scan results above.'
+        trivy image \
+          --format table \
+          --exit-code 1 \
+          --vuln-type os,library \
+          --severity CRITICAL,HIGH \
+          ${IMAGE_NAME}:${BUILD_NUMBER}
         """
     }
 }
